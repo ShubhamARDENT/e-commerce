@@ -2,7 +2,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import "./App.css";
 import Error from "./components/error";
 import Navbar from "./components/navbar";
-import Home from "./components/home";
+import Home from "./components/body";
 import { Box } from "@mui/material";
 const Applayout = () => {
   return (
@@ -20,7 +20,7 @@ const AppRouter = createBrowserRouter([
     path: "/",
     element: <Applayout />,
     errorElement: <Error />,
-    children: [{ path: "/", element: <Home /> }],
+    children: [{ path: "/", element: <Home/>}],
   },
 ]);
 
