@@ -1,9 +1,5 @@
+const Home = () => {
+  return <div>Home page</div>;
+};
 
-
-const Body = () => {
-  return (
-    <div>Body</div>
-  )
-}
-
-export default Body
+export default Body;
