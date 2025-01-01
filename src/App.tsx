@@ -8,7 +8,7 @@ const Applayout = () => {
   return (
     <>
       <Navbar />
-      <Box sx={{ paddingTop: "80px" }}>
+      <Box sx={{ paddingTop: "90px" }}>
         <Outlet />
       </Box>
     </>
@@ -20,7 +20,7 @@ const AppRouter = createBrowserRouter([
     path: "/",
     element: <Applayout />,
     errorElement: <Error />,
-    children: [{ path: "/", element: <Home/>}],
+    children: [{ path: "/", element: <Home /> }],
   },
 ]);
 
