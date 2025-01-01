@@ -94,6 +94,12 @@ const Navbar = () => {
             sx={{
               display: "flex",
               alignItems: "center",
+              textDecoration: "none",
+              ":hover": {
+                textDecoration: "underline",
+                textDecorationThickness: "2px",
+                textUnderlineOffset: "10px",
+              },
             }}
           >
             <ShoppingBagOutlinedIcon sx={{ marginRight: "8px" }} /> Cart
@@ -103,6 +109,13 @@ const Navbar = () => {
             sx={{
               display: "flex",
               alignItems: "center",
+              textDecoration: "none",
+              ":hover": {
+                textDecoration: "underline",
+                textDecorationThickness: "2px",
+                textUnderlineOffset: "10px",
+              },
+
             }}
           >
             <PersonOutlineOutlinedIcon sx={{ marginRight: "8px" }} /> My Account
