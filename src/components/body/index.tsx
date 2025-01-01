@@ -17,21 +17,19 @@ const Home = () => {
   }
 
 
-  const fetchData = async (): Promise<Product[]> => {
-    try {
-      const response = await fetch("https://fakestoreapi.com/products")
-      const products: Product[] = await response.json()
-      // seting the state
-      setProducts(products)
-      return products;
-    } catch (error) {
-      console.log(error)
-      return []
-    }
-  }
-
-
   useEffect(() => {
+    const fetchData = async (): Promise<Product[]> => {
+      try {
+        const response = await fetch("https://fakestoreapi.com/products")
+        const products: Product[] = await response.json()
+        // seting the state
+        setProducts(products)
+        return products;
+      } catch (error) {
+        console.log(error)
+        return []
+      }
+    }
     fetchData()
   }, [])
 
