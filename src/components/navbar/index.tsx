@@ -1,7 +1,7 @@
 import { AppBar, Box, Typography } from "@mui/material";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
-
+import { Link } from "react-router";
 const Navbar = () => {
   return (
     <>
@@ -18,12 +18,14 @@ const Navbar = () => {
         }}
       >
         <Box>
-          <Typography
-            variant="h1"
-            sx={{ fontSize: "1.2rem", fontWeight: "600" }}
-          >
-            Chanta
-          </Typography>
+          <Link to={"/"} style={{ textDecoration: "none", color: "black" }}>
+            <Typography
+              variant="h1"
+              sx={{ fontSize: "1.2rem", fontWeight: "600" }}
+            >
+              Chanta
+            </Typography>
+          </Link>
         </Box>
 
         <Box
@@ -36,20 +38,23 @@ const Navbar = () => {
             flexGrow: 1,
           }}
         >
-          <Typography
-            component="span"
-            sx={{
-              textDecoration: "none",
-              marginRight: "20px",
-              ":hover": {
-                textDecoration: "underline",
-                textDecorationThickness: "2px",
-                textUnderlineOffset: "10px",
-              },
-            }}
-          >
-            Shop
-          </Typography>
+          <Link to={"/"} style={{ textDecoration: "none", color: "black" }}>
+            <Typography
+              component="span"
+              sx={{
+                textDecoration: "none",
+                marginRight: "20px",
+                ":hover": {
+                  textDecoration: "underline",
+                  textDecorationThickness: "2px",
+                  textUnderlineOffset: "10px",
+                },
+              }}
+            >
+              Shop
+            </Typography>
+          </Link>
+
           <Typography
             component="span"
             sx={{
