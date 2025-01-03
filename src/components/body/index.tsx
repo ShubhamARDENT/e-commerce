@@ -3,37 +3,25 @@ import Grid2 from "@mui/material/Grid2";
 import ArrowDropDownCircleOutlinedIcon from '@mui/icons-material/ArrowDropDownCircleOutlined';
 import { useEffect, useState } from "react";
 import ProductCard from "../productcards";
+import { Products } from "../../interfaces/cartInterface";
 
 const Home = () => {
-  const [products, setProducts] = useState<Product[]>([])
-
-  // type defined for each products
-  interface Product {
-    id: number,
-    title: string,
-    image: string,
-    price: number,
-    description: string
-  }
-
+  const [products, setProducts] = useState<Products[]>([])
 
   useEffect(() => {
-    const fetchData = async (): Promise<Product[]> => {
+    const fetchData = async () => {
       try {
-        const response = await fetch("https://fakestoreapi.com/products")
-        const products: Product[] = await response.json()
+        const response = await fetch("https://dummyjson.com/products?limit=12&select=title,price,id,thumbnail,price,description,category")
+        const data = await response.json()
         // seting the state
-        setProducts(products)
-        return products;
+        setProducts(data.products)
       } catch (error) {
         console.log(error)
-        return []
       }
     }
     fetchData()
   }, [])
 
-  console.log(products)
   return <Container sx={{ margin: 0, paddingTop: 2, maxWidth: "100vw" }} maxWidth={false}>
     <Box>
       <Typography component={"p"} sx={{ fontSize: "3rem", fontWeight: 600 }}>
@@ -43,9 +31,8 @@ const Home = () => {
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, maxime?
       </Typography>
     </Box>
-    {/* parent box */}
+
     <Box sx={{ marginTop: "40px", }}>
-      {/* box 1 */}
       <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
         <List sx={{ display: "flex", justifyContent: "space-between", width: "48%" }}>
           <ListItem sx={{
@@ -61,7 +48,7 @@ const Home = () => {
               </ListItemButton>
             </Box>
           </ListItem>
-          {/* 2nd list */}
+
           <ListItem sx={{
             display: "flex", justifyContent: "space-between", background: "white", borderRadius: "50px", width: "21%", paddingLeft: '27px', paddingRight: "15px", paddingY: "10px",
             alignItems: "center"
@@ -76,7 +63,7 @@ const Home = () => {
               </ListItemButton>
             </Box>
           </ListItem>
-          {/* 3rd list */}
+
           <ListItem sx={{
             display: "flex", justifyContent: "space-between", background: "white", borderRadius: "50px", width: "23%", paddingLeft: '30px', paddingRight: "15px", paddingY: "10px"
           }}>
@@ -90,7 +77,7 @@ const Home = () => {
               </ListItemButton>
             </Box>
           </ListItem>
-          {/* 4th list */}
+
           <ListItem sx={{
             display: "flex", justifyContent: "space-between", background: "white", borderRadius: "50px", width: "27%", paddingLeft: '30px', paddingRight: "15px", paddingY: "10px"
           }}>
@@ -105,7 +92,7 @@ const Home = () => {
             </Box>
           </ListItem>
         </List>
-        {/* last item */}
+
         <List sx={{ width: "42%" }}>
           <ListItem sx={{
             display: "flex", justifyContent: "space-between", background: "white", borderRadius: "50px", width: "23%", paddingLeft: '30px', paddingRight: "15px", paddingY: "10px",
@@ -126,8 +113,7 @@ const Home = () => {
         </List>
 
       </Box>
-      {/* end */}
-      {/* product card container */}
+
       <Grid2 container wrap="wrap" sx={{ marginTop: "50px", display: "flex", justifyContent: "center" }} spacing={1} columns={4}>
         {
           products.map((eachProduct) => (
