@@ -5,7 +5,7 @@ import Navbar from "./components/navbar";
 import Home from "./components/body";
 import { Box } from "@mui/material";
 import ProdcutDetails from "./components/productdetails";
-
+import CartPage from "./components/cartpage";
 
 const Applayout = () => {
   return (
@@ -24,7 +24,8 @@ const AppRouter = createBrowserRouter([
     element: <Applayout />,
     errorElement: <Error />,
     children: [{ path: "/", element: <Home /> },
-    { path: "/products/:id", element: <ProdcutDetails /> }
+    { path: "/products/:id", element: <ProdcutDetails /> },
+    { path: "/products/cart", element: <CartPage /> }
     ],
   },
 ]);

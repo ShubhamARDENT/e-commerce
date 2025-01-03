@@ -3,24 +3,15 @@ import Grid2 from "@mui/material/Grid2";
 import ArrowDropDownCircleOutlinedIcon from '@mui/icons-material/ArrowDropDownCircleOutlined';
 import { useEffect, useState } from "react";
 import ProductCard from "../productcards";
+import { Products } from "../../interfaces/cartInterface";
 
 const Home = () => {
   const [products, setProducts] = useState<Products[]>([])
 
-  // type defined for each products
-  interface Products {
-    id: number,
-    title: string,
-    thumbnail: string,
-    price: number,
-    description: string
-  }
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://dummyjson.com/products?limit=12&select=title,price,id,thumbnail,price,description")
+        const response = await fetch("https://dummyjson.com/products?limit=12&select=title,price,id,thumbnail,price,description,category")
         const data = await response.json()
         // seting the state
         setProducts(data.products)
@@ -30,8 +21,7 @@ const Home = () => {
     }
     fetchData()
   }, [])
-  console.log(products)
-  // console.log(products)
+
   return <Container sx={{ margin: 0, paddingTop: 2, maxWidth: "100vw" }} maxWidth={false}>
     <Box>
       <Typography component={"p"} sx={{ fontSize: "3rem", fontWeight: 600 }}>
