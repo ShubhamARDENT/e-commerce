@@ -118,7 +118,7 @@ const Navbar = () => {
             >
               <ShoppingBagOutlinedIcon sx={{ marginRight: "8px", }} />
               Cart
-              <Typography sx={{
+              {totalQuantity === 1 && <Typography sx={{
                 position: "absolute",
                 paddingX: "8px",
                 background: "black",
@@ -127,7 +127,7 @@ const Navbar = () => {
                 borderRadius: "25px",
                 left: "100%",
                 bottom: "40%"
-              }}>{totalQuantity}</Typography>
+              }}>{totalQuantity}</Typography>}
             </Typography>
           </Link>
 

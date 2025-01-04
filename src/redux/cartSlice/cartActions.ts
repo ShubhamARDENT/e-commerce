@@ -1,13 +1,18 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Products } from "../../interfaces/cartInterface";
 
 interface CartState {
   cart: Products[];
+  mainData: Products[];
+  status: string;
 }
 
 const initialState: CartState = {
   cart: [],
+  mainData: [],
+  status: "idle",
 };
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -40,6 +45,31 @@ export const cartSlice = createSlice({
       }
     },
   },
+
+  extraReducers: (builder) => {
+    builder
+      .addCase(apiThunk.pending, (state) => {
+        state.status = "pending";
+      })
+      .addCase(
+        apiThunk.fulfilled,
+        (state, action: PayloadAction<Products[]>) => {
+          state.status = "fullfilled";
+          state.mainData = action.payload;
+        }
+      )
+      .addCase(apiThunk.rejected, (state) => {
+        state.status = "rejected";
+      });
+  },
+});
+
+export const apiThunk = createAsyncThunk("apiCall", async () => {
+  const data = await fetch(
+    "https://dummyjson.com/products?limit=12&select=title,price,id,thumbnail,price,description,category"
+  );
+  const response = await data.json();
+  return response.products;
 });
 
 export const { addtoCart, decrementQuantity, incrementQuantity } =
