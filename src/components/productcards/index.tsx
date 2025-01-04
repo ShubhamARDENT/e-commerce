@@ -43,7 +43,9 @@ const ProductCard: React.FC<{ product: Products }> = ({ product }) => {
                 '& .add-to-cart-button': {
                     opacity: 1,
                     transform: 'translateY(0)',
-                }
+                },
+
+
             },
             position: "relative",
         }}>
@@ -57,23 +59,42 @@ const ProductCard: React.FC<{ product: Products }> = ({ product }) => {
                 />
             </Link>
             {existingProduct ?
-                <Box sx={{ display: "flex", alignItems: "center",  justifyContent: "center" }}>
+                <Box sx={{
+                    paddingLeft: "75px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    position: 'absolute',
+                    bottom: '35%',
+                    zIndex: 1,
+                }}
+
+                >
                     <Button sx={{
                         background: "black", color: "white",
-                     
+                        opacity: 0,
+                        transition: 'opacity 0.3s ease, transform 0.3s ease',
+                        zIndex: 1,
+
                     }} onClick={() => handleDecrement(product)}
-                       
+                        className="add-to-cart-button"
                     >-</Button>
                     <Box sx={{
                         marginX: "20px",
-                    }}>
+                        opacity: 0,
+                        transition: 'opacity 0.3s ease, transform 0.3s ease',
+                        zIndex: 1,
+                    }}
+                        className="add-to-cart-button">
                         {quantity}
                     </Box>
                     <Button sx={{
                         background: "black", color: "white",
-                       
+                        opacity: 0,
+                        transition: 'opacity 0.3s ease, transform 0.3s ease',
+                        zIndex: 1,
                     }}
-                     
+                        className="add-to-cart-button"
                         onClick={() => handleIncrement(product)}>+</Button>
                 </Box>
                 :

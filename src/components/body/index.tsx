@@ -1,27 +1,25 @@
 import { Container, Typography, Box, List, ListItem, ListItemButton } from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
 import ArrowDropDownCircleOutlinedIcon from '@mui/icons-material/ArrowDropDownCircleOutlined';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ProductCard from "../productcards";
+
+import { apiThunk } from "../../redux/cartSlice/cartActions";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { Products } from "../../interfaces/cartInterface";
 
 const Home = () => {
-  const [products, setProducts] = useState<Products[]>([])
+
+
+  const data = useAppSelector(state => state.cartReducer.mainData)
+
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("https://dummyjson.com/products?limit=12&select=title,price,id,thumbnail,price,description,category")
-        const data = await response.json()
-        // seting the state
-        setProducts(data.products)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchData()
+    dispatch(apiThunk())
   }, [])
-
+  
+  console.log(data)
   return <Container sx={{ margin: 0, paddingTop: 2, maxWidth: "100vw" }} maxWidth={false}>
     <Box>
       <Typography component={"p"} sx={{ fontSize: "3rem", fontWeight: 600 }}>
@@ -116,10 +114,10 @@ const Home = () => {
 
       <Grid2 container wrap="wrap" sx={{ marginTop: "50px", display: "flex", justifyContent: "center" }} spacing={1} columns={4}>
         {
-          products.map((eachProduct) => (
+          data.map((eachProduct: Products) => (
             <Grid2 sx={{
               width: { xs: "100%", sm: "50%", md: "33.33%", lg: "21%" },
-            }} key={eachProduct.id} >
+            }} key={eachProduct.id}>
 
               <ProductCard
                 product={eachProduct} />
