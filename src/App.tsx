@@ -24,6 +24,7 @@ const AppRouter = createBrowserRouter([
     element: <Applayout />,
     errorElement: <Error />,
     children: [{ path: "/", element: <Home /> },
+      
     { path: "/products/:id", element: <ProdcutDetails /> },
     { path: "/products/cart", element: <CartPage /> }
     ],

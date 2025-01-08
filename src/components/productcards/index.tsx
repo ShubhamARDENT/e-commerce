@@ -36,6 +36,7 @@ const ProductCard: React.FC<{ product: Products }> = ({ product }) => {
         <Card elevation={0} sx={{
             width: "80%",
             cursor: "pointer",
+            fontFamily: "Lexend",
             '&:hover': {
                 '& .MuiCardContent-root': {
                     backgroundColor: '#f5f5f5',
@@ -44,8 +45,6 @@ const ProductCard: React.FC<{ product: Products }> = ({ product }) => {
                     opacity: 1,
                     transform: 'translateY(0)',
                 },
-
-
             },
             position: "relative",
         }}>
@@ -120,7 +119,7 @@ const ProductCard: React.FC<{ product: Products }> = ({ product }) => {
                 <Typography component="p" sx={{ fontSize: "1rem", fontWeight: "600" }}>
                     {product.title}
                 </Typography>
-                <Typography component="p" sx={{ fontSize: "0.7rem" }}>{product.category}</Typography>
+                <Typography component="p" sx={{ fontSize: "0.8rem", fontWeight: "600", color: '#939393' }}>{product.category}</Typography>
                 <Typography component="p" sx={{ fontWeight: "600", marginTop: '15px' }}>
                     ${product.price}
                 </Typography>

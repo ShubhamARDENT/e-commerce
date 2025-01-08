@@ -6,4 +6,8 @@ export interface Products {
   description: string;
   quantity?: number;
   category: string;
+  availabilityStatus: string;
+  warrantyInformation: string;
+  shippingInformation: string;
+  reviews: [];
 }

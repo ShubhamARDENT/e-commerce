@@ -1,4 +1,7 @@
 body {
-    background-color:
-        #e5e5e5;
+  background-color: #e5e5e5;
+}
+
+.swiper-wrapper {
+  display: flex;
 }

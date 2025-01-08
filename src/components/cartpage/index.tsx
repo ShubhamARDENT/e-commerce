@@ -5,6 +5,7 @@ import { useAppSelector } from '../../redux/hooks'
 import { useDispatch } from 'react-redux'
 import { decrementQuantity, incrementQuantity } from '../../redux/cartSlice/cartActions'
 import { Products } from '../../interfaces/cartInterface'
+import { Link } from 'react-router'
 
 const CartPage = () => {
 
@@ -22,8 +23,14 @@ const CartPage = () => {
         dispatch(decrementQuantity(item))
     }
     if (cart.length === 0) {
-        return <div>cart is empty</div>
+        return <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh', flexDirection: 'column' }}>
+            <Typography component={'p'} sx={{ fontSize: '2rem', fontFamily: 'Lexend' }}>You Cart Looks Empty</Typography>
+            <Link to='/'>
+                <Button sx={{ background: 'black', color: 'white', marginTop: '10px', borderRadius: '10px' }}>Shop Now</Button>
+            </Link>
+        </Box>
     }
+    
     return (
         <>
             <Container maxWidth={false} sx={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "25px", alignItems: "center" }}>

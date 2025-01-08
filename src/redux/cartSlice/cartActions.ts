@@ -1,16 +1,19 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Products } from "../../interfaces/cartInterface";
 
+// cart interface
 interface CartState {
   cart: Products[];
   mainData: Products[];
   status: string;
+  totalItems: number;
 }
 
 const initialState: CartState = {
   cart: [],
   mainData: [],
   status: "idle",
+  totalItems: 0,
 };
 
 export const cartSlice = createSlice({
@@ -53,9 +56,13 @@ export const cartSlice = createSlice({
       })
       .addCase(
         apiThunk.fulfilled,
-        (state, action: PayloadAction<Products[]>) => {
+        (
+          state,
+          action: PayloadAction<{ products: Products[]; total: number }>
+        ) => {
           state.status = "fullfilled";
-          state.mainData = action.payload;
+          state.mainData = action.payload.products;
+          state.totalItems = action.payload.total;
         }
       )
       .addCase(apiThunk.rejected, (state) => {
@@ -64,13 +71,19 @@ export const cartSlice = createSlice({
   },
 });
 
-export const apiThunk = createAsyncThunk("apiCall", async () => {
-  const data = await fetch(
-    "https://dummyjson.com/products?limit=12&select=title,price,id,thumbnail,price,description,category"
-  );
-  const response = await data.json();
-  return response.products;
-});
+export const apiThunk = createAsyncThunk(
+  "apiCall",
+  async ({ page, limit }: { page: number; limit: number }) => {
+    const skip = (page - 1) * limit;
+
+    const data = await fetch(
+      `https://dummyjson.com/products?limit=${limit}&skip=${skip}&select=title,price,id,thumbnail,price,description,category`
+    );
+    const response = await data.json();
+
+    return { products: response.products, total: response.total };
+  }
+);
 
 export const { addtoCart, decrementQuantity, incrementQuantity } =
   cartSlice.actions;
