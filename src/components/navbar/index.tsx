@@ -23,13 +23,15 @@ const Navbar = () => {
           flexDirection: "row",
           padding: "30px",
           boxShadow: "none",
+          fontFamily: "Lexend"
         }}
       >
+        {/* title */}
         <Box>
           <Link to={"/"} style={{ textDecoration: "none", color: "black" }}>
             <Typography
               variant="h1"
-              sx={{ fontSize: "1.2rem", fontWeight: "600" }}
+              sx={{ fontSize: "1.2rem", fontWeight: "600", fontFamily: "Lexend" }}
             >
               Chanta
             </Typography>
@@ -51,6 +53,7 @@ const Navbar = () => {
               sx={{
                 textDecoration: "none",
                 marginRight: "20px",
+                fontFamily: "Lexend",
                 ":hover": {
                   textDecoration: "underline",
                   textDecorationThickness: "2px",
@@ -67,6 +70,7 @@ const Navbar = () => {
             sx={{
               textDecoration: "none",
               marginRight: "20px",
+              fontFamily: "Lexend",
               ":hover": {
                 textDecoration: "underline",
                 textDecorationThickness: "2px",
@@ -81,6 +85,7 @@ const Navbar = () => {
             sx={{
               textDecoration: "none",
               marginRight: "20px",
+              fontFamily: "Lexend",
               ":hover": {
                 textDecoration: "underline",
                 textDecorationThickness: "2px",
@@ -90,7 +95,7 @@ const Navbar = () => {
           >
             Explore
           </Typography>
-          <Typography component="span">...</Typography>
+          <Typography sx={{ fontSize: "1.2rem" }} component="span">...</Typography>
         </Box>
 
         <Box
@@ -118,7 +123,7 @@ const Navbar = () => {
             >
               <ShoppingBagOutlinedIcon sx={{ marginRight: "8px", }} />
               Cart
-              {totalQuantity === 1 && <Typography sx={{
+              {totalQuantity >= 1 && <Typography sx={{
                 position: "absolute",
                 paddingX: "8px",
                 background: "black",
@@ -148,7 +153,7 @@ const Navbar = () => {
             <PersonOutlineOutlinedIcon sx={{ marginRight: "8px" }} /> My Account
           </Typography>
         </Box>
-      </AppBar>
+      </AppBar >
     </>
   );
 };
