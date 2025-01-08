@@ -9,9 +9,8 @@ import { Products } from '../../interfaces/cartInterface';
 import { Reviews } from '../../interfaces/reviewInterface';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
-import 'swiper/css'
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
-
+import 'swiper/css'
 
 const ProdcutDetails: React.FC = () => {
 
@@ -116,7 +115,7 @@ const ProdcutDetails: React.FC = () => {
                         fontFamily: 'Lexend'
                     }}>${product.price}</Typography>
 
-                    <Typography component={'p'} sx={{ fontSize: "1.5rem", fontFamily: 'Lexend' }}>{product.availabilityStatus}</Typography>
+                    <Typography component={'p'} sx={{ fontSize: "1.5rem", fontFamily: 'Lexend', color: product.availabilityStatus === 'In Stock' ? 'green' : 'red' }}>{product.availabilityStatus}</Typography>
 
                     <Box sx={{ marginTop: "25px", borderTop: "1px solid gray", paddingTop: "20px" }
                     } >
