@@ -1,15 +1,33 @@
-import { AppBar, Box, Typography } from "@mui/material";
+import { AppBar, Box, IconButton, Typography } from "@mui/material";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { Link } from "react-router";
 import { useAppSelector } from "../../redux/hooks";
 import { Products } from "../../interfaces/cartInterface";
+import SearchIcon from '@mui/icons-material/Search';
+import InputBase from '@mui/material/InputBase';
+import { useState } from "react";
 
-const Navbar = () => {
 
+interface INavbar {
+  query: string,
+  setQuery: React.Dispatch<React.SetStateAction<string>>,
+}
+
+const Navbar: React.FC<INavbar> = ({ query, setQuery }) => {
+  const [Expanded, setExpanded] = useState(false)
   const cartItem = useAppSelector(state => state.cartReducer.cart)
-
   const totalQuantity = cartItem.reduce((total, item: Products) => total + (item.quantity || 0), 0)
+
+  // make search input box visible
+  const handleSearchInputDisplay = () => {
+    setExpanded((Expanded) => !Expanded)
+  }
+
+  const handleOnchange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value)
+  }
+
 
   return (
     <>
@@ -106,6 +124,26 @@ const Navbar = () => {
             alignItems: "center",
           }}
         >
+          {/* search box */}
+          <form >
+            <InputBase
+              type="text"
+              placeholder="search products"
+              value={query}
+              onChange={handleOnchange}
+              sx={{
+                transition: '0.3s ease',
+                marginRight: "10px",
+                borderBottom: "2px solid black",
+                opacity: Expanded ? 1 : 0,
+                fontFamily: 'Lexend',
+              }} />
+            <IconButton onClick={handleSearchInputDisplay}>
+              <SearchIcon sx={{ color: 'black' }} />
+            </IconButton>
+          </form>
+
+          {/* cart */}
           <Link to={"/products/cart"} style={{ textDecoration: "none", color: "black" }}>
             <Typography
               component="span"
@@ -135,7 +173,7 @@ const Navbar = () => {
               }}>{totalQuantity}</Typography>}
             </Typography>
           </Link>
-
+          {/* my account */}
           <Typography
             component="span"
             sx={{

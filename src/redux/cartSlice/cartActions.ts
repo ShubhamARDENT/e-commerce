@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Products } from "../../interfaces/cartInterface";
 
+import { ICategories } from "../../interfaces/categoryinterface";
+
 // cart interface
 interface CartState {
   cart: Products[];
@@ -73,18 +75,50 @@ export const cartSlice = createSlice({
 
 export const apiThunk = createAsyncThunk(
   "apiCall",
-  async ({ page, limit }: { page: number; limit: number }) => {
+  async ({
+    page,
+    limit,
+    search,
+    category,
+  }: {
+    page: number;
+    limit: number;
+    search: string;
+    category: string;
+  }) => {
     const skip = (page - 1) * limit;
+
+    //  show products by catrgory
+
+    /**
+     * search for product or display all products
+     */
+
+    if (category) {
+      const data = await fetch(
+        `https://dummyjson.com/products/category/${category}`
+      );
+      const response = await data.json();
+      return { products: response.products, total: response.total };
+    }
+
+    if (search) {
+      const data = await fetch(
+        `https://dummyjson.com/products/search?q=${search}`
+      );
+      const response = await data.json();
+      return { products: response.products, total: response.total };
+    }
 
     const data = await fetch(
       `https://dummyjson.com/products?limit=${limit}&skip=${skip}&select=title,price,id,thumbnail,price,description,category`
     );
     const response = await data.json();
-
     return { products: response.products, total: response.total };
   }
 );
 
 export const { addtoCart, decrementQuantity, incrementQuantity } =
   cartSlice.actions;
+
 export default cartSlice.reducer;
