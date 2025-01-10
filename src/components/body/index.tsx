@@ -42,11 +42,11 @@ const Home: React.FC<INavbar> = ({ query }) => {
     setcurrentPage(value)
   }
 
-  // debouncing search query delay by 2sec
+  // debouncing search query delay by 1sec
   useEffect(() => {
     const handle = setTimeout(() => {
       setdebouncedQuery(query)
-    }, 2000);
+    }, 1000);
 
     return () => {
       clearTimeout(handle)
