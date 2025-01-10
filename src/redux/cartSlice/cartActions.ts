@@ -73,18 +73,56 @@ export const cartSlice = createSlice({
 
 export const apiThunk = createAsyncThunk(
   "apiCall",
-  async ({ page, limit }: { page: number; limit: number }) => {
+  async ({
+    page,
+    limit,
+    search,
+    category,
+    sort,
+  }: {
+    page: number;
+    limit: number;
+    search: string;
+    category: string;
+    sort: string;
+  }) => {
     const skip = (page - 1) * limit;
+
+    //  show products by title(A-Z)
+    if (sort) {
+      const data = await fetch(
+        `https://dummyjson.com/products?sortBy=${sort}&order=asc`
+      );
+      const response = await data.json();
+      return { products: response.products, total: response.total };
+    }
+
+    // get products by categories
+    if (category) {
+      const data = await fetch(
+        `https://dummyjson.com/products/category/${category}`
+      );
+      const response = await data.json();
+      return { products: response.products, total: response.total };
+    }
+    // search for product
+    if (search) {
+      const data = await fetch(
+        `https://dummyjson.com/products/search?q=${search}`
+      );
+      const response = await data.json();
+      return { products: response.products, total: response.total };
+    }
 
     const data = await fetch(
       `https://dummyjson.com/products?limit=${limit}&skip=${skip}&select=title,price,id,thumbnail,price,description,category`
     );
     const response = await data.json();
-
     return { products: response.products, total: response.total };
   }
 );
 
 export const { addtoCart, decrementQuantity, incrementQuantity } =
   cartSlice.actions;
+
 export default cartSlice.reducer;
