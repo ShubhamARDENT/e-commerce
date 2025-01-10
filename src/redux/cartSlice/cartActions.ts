@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Products } from "../../interfaces/cartInterface";
 
-import { ICategories } from "../../interfaces/categoryinterface";
-
 // cart interface
 interface CartState {
   cart: Products[];
@@ -80,20 +78,26 @@ export const apiThunk = createAsyncThunk(
     limit,
     search,
     category,
+    sort,
   }: {
     page: number;
     limit: number;
     search: string;
     category: string;
+    sort: string;
   }) => {
     const skip = (page - 1) * limit;
 
-    //  show products by catrgory
+    //  show products by title(A-Z)
+    if (sort) {
+      const data = await fetch(
+        `https://dummyjson.com/products?sortBy=${sort}&order=asc`
+      );
+      const response = await data.json();
+      return { products: response.products, total: response.total };
+    }
 
-    /**
-     * search for product or display all products
-     */
-
+    // get products by categories
     if (category) {
       const data = await fetch(
         `https://dummyjson.com/products/category/${category}`
@@ -101,7 +105,7 @@ export const apiThunk = createAsyncThunk(
       const response = await data.json();
       return { products: response.products, total: response.total };
     }
-
+    // search for product
     if (search) {
       const data = await fetch(
         `https://dummyjson.com/products/search?q=${search}`

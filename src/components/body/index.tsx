@@ -18,8 +18,10 @@ interface INavbar {
 
 const Home: React.FC<INavbar> = ({ query }) => {
   const dispatch = useAppDispatch()
+  const [debouncedQuery, setdebouncedQuery] = useState(query)
   const [categoires, setCategories] = useState<ICategories[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>("")
+  const [sortBy, SetSortBy] = useState<string>('')
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [anchorEl2, setAnchorEl2] = React.useState<null | HTMLElement>(null)
   const [currentPage, setcurrentPage] = useState(1)
@@ -40,39 +42,55 @@ const Home: React.FC<INavbar> = ({ query }) => {
     setcurrentPage(value)
   }
 
+  // debouncing search query delay by 2sec
   useEffect(() => {
-    dispatch(apiThunk({ page: currentPage, limit: itemsPerPage, search: query, category: selectedCategory }))
+    const handle = setTimeout(() => {
+      setdebouncedQuery(query)
+    }, 2000);
 
-  }, [dispatch, currentPage, itemsPerPage, query, selectedCategory])
+    return () => {
+      clearTimeout(handle)
+    }
+  }, [query])
 
-  // for getting all product categories
+  useEffect(() => {
+    dispatch(apiThunk({ page: currentPage, limit: itemsPerPage, search: debouncedQuery, category: selectedCategory, sort: sortBy }))
+
+  }, [dispatch, currentPage, itemsPerPage, debouncedQuery, selectedCategory, sortBy])
+
+  // for getting all product categories for making the drop down menu items
   useEffect(() => {
     fetchCategories();
   }, []);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+
+  const handleCategoryClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-
-  const handleClick2 = (event: React.MouseEvent<HTMLButtonElement>) => {
+  // sort by
+  const handleSortClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl2(event.currentTarget);
   };
 
 
-  const handleClose = () => {
+  const handleCloseCategory = () => {
     setAnchorEl(null);
   };
 
+  const handleCloseSort = () => {
+    setAnchorEl2(null)
+  }
+
   const handleSelectCategory = (category: string) => {
     setSelectedCategory(category)
-    handleClose()
+    handleCloseCategory()
   }
 
   // for sorting A-Z
-  const handleClose2 = () => {
-    setAnchorEl2(null);
-
+  const handleSortBy = (title: string) => {
+    SetSortBy(title)
+    handleCloseSort()
   };
 
   if (data.length === 0) {
@@ -82,7 +100,7 @@ const Home: React.FC<INavbar> = ({ query }) => {
   }
 
   // console.log(data)
-  console.log(categoires)
+  // console.log(categoires)
   return <>
     <Container component={'section'} sx={{ margin: 0, paddingTop: 2, maxWidth: "100vw", fontFamily: "Lexend", }}
       maxWidth={false}>
@@ -112,7 +130,7 @@ const Home: React.FC<INavbar> = ({ query }) => {
                   aria-haspopup="true"
                   aria-expanded={open ? 'true' : undefined}
                   component={'button'}
-                  onClick={handleClick}
+                  onClick={handleCategoryClick}
 
                 >
                   <ArrowDropDownCircleOutlinedIcon sx={{ fontSize: "2rem" }} />
@@ -121,7 +139,7 @@ const Home: React.FC<INavbar> = ({ query }) => {
                   id="basic-menu"
                   anchorEl={anchorEl}
                   open={open}
-                  onClose={handleClose}
+                  onClose={handleCategoryClick}
                   MenuListProps={{
                     'aria-labelledby': 'basic-button',
                   }}
@@ -190,19 +208,20 @@ const Home: React.FC<INavbar> = ({ query }) => {
                   aria-haspopup="true"
                   aria-expanded={open2 ? 'true' : undefined}
                   component={'button'}
-                  onClick={handleClick2}>
+                  onClick={handleSortClick}>
                   <ArrowDropDownCircleOutlinedIcon sx={{ fontSize: "2rem" }} />
                 </ListItemButton>
                 <Menu
                   id="basic-menu"
                   anchorEl={anchorEl2}
                   open={open2}
-                  onClose={handleClose2}
+                  onClose={handleCloseSort}
                   MenuListProps={{
                     'aria-labelledby': 'basic-button',
                   }}
                 >
-                  <MenuItem onClick={handleClose2}>A-Z</MenuItem>
+                  <MenuItem onClick={() => handleSortBy('title')}>By Title</MenuItem>
+
                 </Menu>
               </Box>
             </ListItem>
